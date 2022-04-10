@@ -42,7 +42,7 @@ $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8',
 
 // set document information
 $pdf->SetCreator(PDF_CREATOR);
-$pdf->SetAuthor('Yayasan Triatma Surya Jaua');
+$pdf->SetAuthor('YDP');
 $pdf->SetTitle('Rekapitulasi Inventaris Per Ruangan');
 $pdf->SetSubject('Cetak Rekap');
 $pdf->SetKeywords('TCPDF, PDF, example, test, guide');

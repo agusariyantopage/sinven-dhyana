@@ -32,6 +32,7 @@
                     <th>Kategori</th>
                     <th>Kode Subkategori</th>
                     <th>Subkategori</th>                    
+                    <th>APR/DPR(%)</th>                    
                     <th>Aksi</th>
                   </tr>
                   </thead>
@@ -46,6 +47,7 @@
                         <td><?= $r['kategori']; ?></td>                        
                         <td><?= $r['kode']; ?></td>
                         <td><?= $r['subkategori']; ?></td>               
+                        <td><?= $r['apresiasi_per_tahun']; ?></td>               
                         <td align="center">
                           
                             <a href="index.php?p=editsubkategori&id=<?= $r['id_subkategori']; ?>"><span class="fas fa-edit"></span></a>

@@ -46,7 +46,7 @@
                         <td align="center">
                             <a target="blank" href="pdf/examples/print-barcode1d-cus.php?lok=<?= md5($r['lokasi']); ?>"><button class="btn btn-info"><i class="fas fa-print"></i> Cetak Barcode</button></a>
                             &nbsp;
-                            <a target="blank" href="pdf/examples/print-barcode2d-cus.php?lok=<?= md5($r['lokasi']); ?>"><button class="btn btn-info"><i class="fas fa-print"></i> Cetak QRcode</button></a>
+                            <a target="blank" href="pdf/examples/inventaris_by_ruang_rinci.php?lok=<?= md5($r['lokasi']); ?>"><button class="btn btn-info"><i class="fas fa-print"></i> Cetak Rincian</button></a>
                             &nbsp;
                             <a target="blank" href="pdf/examples/inventaris_by_ruang.php?lok=<?= md5($r['lokasi']); ?>"><button class="btn btn-info"><i class="fas fa-print"></i> Cetak Rekap</button></a>
                             &nbsp;

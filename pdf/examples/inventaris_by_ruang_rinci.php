@@ -38,11 +38,11 @@ $sql3="select * from unit_kerja where id_unit=$id_unit";
 require_once('tcpdf_include.php');
 
 // create new PDF document
-$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+$pdf = new TCPDF('L', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
 // set document information
 $pdf->SetCreator(PDF_CREATOR);
-$pdf->SetAuthor('Yayasan Triatma Surya Jaya');
+$pdf->SetAuthor('YDP');
 $pdf->SetTitle('Daftar Inventaris Per Ruangan');
 $pdf->SetSubject('Cetak Rekap');
 $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
@@ -100,11 +100,11 @@ if($_SESSION['level']==1) {
 	<thead>
     <tr>
 	    <th width="5%"  align="center">No</th>                
-	    <th width="15%"  align="center">Barcode</th>    
+	    <th width="20%"  align="center">Kelompok Barang</th>    
 	    <th width="35%" align="center">Deskripsi</th> 
 	    <th width="10%" align="center">Kondisi</th>    
-	    <th width="15%" align="center">Tgl Masuk</th>    
-	    <th width="20%" align="center">Nilai Perolehan</th>    
+	    <th width="15%" align="center">Tgl Perolehan</th>    
+	    <th width="15%" align="center">Nilai Perolehan</th>    
 	</tr>
     </thead>
 	<tbody>
@@ -126,11 +126,11 @@ if($_SESSION['level']==1) {
          $tot=$tot+$r['nilai_perolehan'];
 		 $html.='<tr>
 		  	<td width="5%">'.$no.'</td>
-		    <td width="15%">'.$r['id_barang_detail'].'</td>
-		    <td width="35%">'.$r['deskripsi'].'</td>		    
+		    <td width="20%">'.$r['deskripsi'].'</td>
+		    <td width="35%">'.$r['catatan'].'</td>		    
 		    <td width="10%">'.$r['kondisi'].'</td>		    
-		    <td width="15%">'.$r['tanggal_input'].'</td>		    
-		    <td width="20%" align="right">'.number_format($r['nilai_perolehan']).'</td>		    
+		    <td width="15%">'.$r['tanggal_perolehan'].'</td>		    
+		    <td width="15%" align="right">'.number_format($r['nilai_perolehan']).'</td>		    
 			</tr>';
 			$no++;
 	}

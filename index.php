@@ -436,6 +436,14 @@ if($jumlah_delete>=1){
             </a>
           </li> 
           <li class="nav-item">
+            <a target='blank' href="pdf/examples/rekap_aset.php" class="nav-link">
+              <i class="nav-icon fas fa-balance-scale"></i>
+              <p>
+                Neraca               
+              </p>
+            </a>
+          </li> 
+          <li class="nav-item">
             <a href="index.php?p=bantuan" class="nav-link">
               <i class="nav-icon fas fa-question-circle"></i>
               <p>
@@ -564,7 +572,7 @@ if($jumlah_delete>=1){
     
     //Initialize Select2 Elements
     $('.select2').select2();
-    
+
     $('.select2bs4').select2({
       theme: 'bootstrap4'
     });

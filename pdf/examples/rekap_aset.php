@@ -1,11 +1,15 @@
 <?php
+session_start();
+include '../../koneksi.php';
+
+
 //============================================================+
-// File name   : example_003.php
+// File name   : example_006.php
 // Begin       : 2008-03-04
 // Last Update : 2013-05-14
 //
-// Description : Example 003 for TCPDF class
-//               Custom Header and Footer
+// Description : Example 006 for TCPDF class
+//               WriteHTML and RTL support
 //
 // Author: Nicola Asuni
 //
@@ -19,7 +23,7 @@
 /**
  * Creates an example PDF TEST document using TCPDF
  * @package com.tecnick.tcpdf
- * @abstract TCPDF - Example: Custom Header and Footer
+ * @abstract TCPDF - Example: WriteHTML and RTL support
  * @author Nicola Asuni
  * @since 2008-03-04
  */
@@ -27,40 +31,14 @@
 // Include the main TCPDF library (search for installation path).
 require_once('tcpdf_include.php');
 
-
-// Extend the TCPDF class to create custom Header and Footer
-class MYPDF extends TCPDF {
-
-	//Page header
-	public function Header() {
-		// Logo
-		$image_file = K_PATH_IMAGES.'logo_example.jpg';
-		$this->Image($image_file, 10, 10, 15, '', 'JPG', '', 'T', false, 300, '', false, false, 0, false, false, false);
-		// Set font
-		$this->SetFont('helvetica', 'B', 20);
-		// Title
-		$this->Cell(0, 15, '<< TCPDF Example 003 >>', 0, false, 'C', 0, '', 0, false, 'M', 'M');
-	}
-
-	// Page footer
-	public function Footer() {
-		// Position at 15 mm from bottom
-		$this->SetY(-15);
-		// Set font
-		$this->SetFont('helvetica', 'I', 8);
-		// Page number
-		$this->Cell(0, 10, 'Page '.$this->getAliasNumPage().'/'.$this->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
-	}
-}
-
 // create new PDF document
-$pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+$pdf = new TCPDF('P', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
 // set document information
 $pdf->SetCreator(PDF_CREATOR);
-$pdf->SetAuthor('Nicola Asuni');
-$pdf->SetTitle('TCPDF Example 003');
-$pdf->SetSubject('TCPDF Tutorial');
+$pdf->SetAuthor('YDP');
+$pdf->SetTitle('NERACA ASET');
+$pdf->SetSubject('Cetak Rekap');
 $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 
 // set default header data
@@ -93,25 +71,48 @@ if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
 // ---------------------------------------------------------
 
 // set font
-$pdf->SetFont('times', 'BI', 12);
+$pdf->SetFont('dejavusans', '', 10);
 
-// add a page
 $pdf->AddPage();
+$html ='<p align="center"><b>NERACA ASET</b></p>';
+$html.='<table>';
+$sql="select * from kategori";
+$perintah=mysqli_query($koneksi,$sql);
+$total=0;
+while ($r=mysqli_fetch_array($perintah)) { 
+    $html.='
+        <tr><td colspan=2><b>'.$r['kategori'].'</b></td></tr>
+    ';
+    $id_kategori=$r['id_kategori'];
+    $sql2="select * from subkategori where id_kategori=$id_kategori";
+    $perintah2=mysqli_query($koneksi,$sql2);
 
-// set some text to print
-$txt = <<<EOD
-TCPDF Example 003
+    while ($r2=mysqli_fetch_array($perintah2)) {
+        $html.='
+        <tr><td width="50%">'.$r2['subkategori'].'</td>
+        ';
+        $id_subkategori=$r2['id_subkategori'];
+        $sql3="select sum(nilai_perolehan) as total from barang_detail,barang where barang_detail.id_barang=barang.id_barang and id_subkategori=$id_subkategori";
+        $perintah3=mysqli_query($koneksi,$sql3);
+        $r3=mysqli_fetch_array($perintah3);
+        $total_subkategori=$r3['total'];
+        $html.='
+        <td align="right">Rp. '.number_format($total_subkategori).'</td></tr>
+        ';
+        $total=$total+$total_subkategori;
+    }
 
-Custom page header and footer are defined by extending the TCPDF class and overriding the Header() and Footer() methods.
-EOD;
+}
+$html.='
+<tr><td width="50%"><b>NILAI TOTAL ASET</b></td><td align="right"><b>Rp. '.number_format($total).'</b></td></tr>
+';
 
-// print a block of text using Write()
-$pdf->Write(0, $txt, '', 0, 'C', true, 0, false, false, 0);
 
-// ---------------------------------------------------------
+$pdf->writeHTML($html, true, true, true, true, '');
 
 //Close and output PDF document
-$pdf->Output('example_003.pdf', 'I');
+$nama_file="rekap_aset_".date('Y_m_d_H_i_s').".pdf";
+$pdf->Output($nama_file, 'I');
 
 //============================================================+
 // END OF FILE
