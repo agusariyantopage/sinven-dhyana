@@ -92,7 +92,14 @@ while ($r=mysqli_fetch_array($perintah)) {
         <tr><td width="50%">'.$r2['subkategori'].'</td>
         ';
         $id_subkategori=$r2['id_subkategori'];
-        $sql3="select sum(nilai_perolehan) as total from barang_detail,barang where barang_detail.id_barang=barang.id_barang and id_subkategori=$id_subkategori";
+        if($_SESSION['level']==1) {
+            $sql3="select sum(nilai_perolehan) as total from barang_detail,barang where barang_detail.id_barang=barang.id_barang and id_subkategori=$id_subkategori";
+        } else {
+            $id_unit= $_SESSION['idunit'];
+            $sql3="select sum(nilai_perolehan) as total from barang_detail,barang where barang_detail.id_barang=barang.id_barang and id_subkategori=$id_subkategori and barang_detail.id_unitkerja=$id_unit";
+        }
+
+        //$sql3="select sum(nilai_perolehan) as total from barang_detail,barang where barang_detail.id_barang=barang.id_barang and id_subkategori=$id_subkategori";
         $perintah3=mysqli_query($koneksi,$sql3);
         $r3=mysqli_fetch_array($perintah3);
         $total_subkategori=$r3['total'];
