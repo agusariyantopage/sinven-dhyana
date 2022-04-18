@@ -44,7 +44,7 @@ $r1=mysqli_fetch_array($perintah1);
 							</div>
 							<div class="form-group">
 								<label for="idsubkategori">Kelompok Barang</label>
-								<select class="form-control select2" name="idsubkategori" id="idsubkategori" required="">
+								<select class="form-control select2bs4" name="idsubkategori" id="idsubkategori" required="">
 									<option value="<?= $r1['id_subkategori']; ?>"><?= $r1['subkategori']; ?></option>	
 									<?php
 									$sql="select subkategori.*,kategori from subkategori,kategori where subkategori.id_kategori=kategori.id_kategori order by subkategori";

@@ -95,16 +95,19 @@ if($_SESSION['level']==1) {
   	$lok=$r1['lokasi'];
   	$idu=$r1['id_unitkerja'];
 	$html.='<br><br>Unit Kerja/Lokasi : '.$r1['nama_panjang'].'/'.$r1['lokasi'].'<br><br>';
-
+	$pdf->SetFont('dejavusans', '', 9);
 	$html.='<table style=" border-collapse: collapse;" border="1">
 	<thead>
     <tr>
 	    <th width="5%"  align="center">No</th>                
-	    <th width="20%"  align="center">Kelompok Barang</th>    
-	    <th width="35%" align="center">Deskripsi</th> 
-	    <th width="10%" align="center">Kondisi</th>    
-	    <th width="15%" align="center">Tgl Perolehan</th>    
-	    <th width="15%" align="center">Nilai Perolehan</th>    
+	    <th width="15%"  align="center">Kelompok Barang</th>    
+	    <th width="20%" align="center">Deskripsi</th> 
+	    <th width="6%" align="center">Kondisi</th>    
+	    <th width="10%" align="center">Tgl Perolehan</th>    
+	    <th width="10%" align="center">Nilai Perolehan</th>    
+	    <th width="10%" align="center">Biaya Depresiasi Tahun Berjalan</th>    
+	    <th width="10%" align="center">Akumulasi Depresiasi</th>    
+	    <th width="14%" align="center">Nilai Sisa</th>    
 	</tr>
     </thead>
 	<tbody>
@@ -126,17 +129,20 @@ if($_SESSION['level']==1) {
          $tot=$tot+$r['nilai_perolehan'];
 		 $html.='<tr>
 		  	<td width="5%">'.$no.'</td>
-		    <td width="20%">'.$r['deskripsi'].'</td>
-		    <td width="35%">'.$r['catatan'].'</td>		    
-		    <td width="10%">'.$r['kondisi'].'</td>		    
-		    <td width="15%">'.$r['tanggal_perolehan'].'</td>		    
-		    <td width="15%" align="right">'.number_format($r['nilai_perolehan']).'</td>		    
+		    <td width="15%">'.$r['deskripsi'].'</td>
+		    <td width="20%">'.$r['catatan'].'</td>		    
+		    <td width="6%">'.$r['kondisi'].'</td>		    
+		    <td width="10%">'.$r['tanggal_perolehan'].'</td>		    
+		    <td width="10%" align="right">'.number_format($r['nilai_perolehan']).'</td>		    
+		    <td width="10%" align="right">'.number_format($r['nilai_perolehan']).'</td>		    
+		    <td width="10%" align="right">'.number_format($r['nilai_perolehan']).'</td>		    
+		    <td width="14%" align="right">'.number_format($r['nilai_perolehan']).'</td>		    
 			</tr>';
 			$no++;
 	}
 	$html.='
     <tr>
-    <td colspan="5" align="center"><b>Total Nilai Aset Inventaris</b></td>
+    <td colspan="8" align="center"><b>Total Nilai Aset Inventaris</b></td>
     <td align="right"><b>'.number_format($tot).'</b></td>
     </tr>
     </tbody>
@@ -149,7 +155,9 @@ $pdf->writeHTML($html, true, true, true, true, '');
 // ---------------------------------------------------------
 
 //Close and output PDF document
-$pdf->Output('rekapitulasi_per_ruang.pdf', 'I');
+$tgl= date('Ymd_h:i:s');
+$fname=$tgl."_rincian_by_ruang.pdf";
+$pdf->Output($fname, 'I');
 
 //============================================================+
 // END OF FILE
