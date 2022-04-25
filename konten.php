@@ -64,6 +64,8 @@
 
 	elseif ($_GET['p']=='imporkatalog') {
 		include "konten/impor_katalog.php";}	
+	elseif ($_GET['p']=='imporinventaris') {
+		include "konten/impor_inventaris.php";}	
 	elseif ($_GET['p']=='inventarisrinci') {
 		include "konten/inventaris_rinci.php";} // Coba Coba
 	elseif ($_GET['p']=='inventarisrekap') {

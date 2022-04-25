@@ -295,6 +295,12 @@ if($jumlah_delete>=1){
                     </a>
                   </li>
                   <li class="nav-item">
+                    <a href="index.php?p=imporinventaris" class="nav-link">
+                      <i class="far fa-dot-circle nav-icon"></i>
+                      <p>Input By Impor</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
                     <a href="index.php?p=inventarisperbaikan" class="nav-link">
                       <i class="far fa-dot-circle nav-icon"></i>
                       <p>Perbaikan Data</p>
