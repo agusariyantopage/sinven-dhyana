@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Easy Number Separator</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Cairo&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css?family=Fredoka+One&display=swap" rel="stylesheet" />
+
+  <style>
+    body {
+      background: #eee;
+      font-family: 'Cairo', sans-serif;
+    }
+
+    #main {
+      margin: 0 auto;
+      display: block;
+      padding: 0 20px;
+      text-align: center;
+    }
+
+    h1 {
+      font-family: 'Fredoka One', cursive;
+      font-weight: 100;
+    }
+
+    input[type='text'] {
+      margin: 0 auto;
+      padding: 15px;
+      border-radius: 5px;
+      border: 1px solid #bbb;
+      font-size: 36px;
+      display: block;
+      text-align: center;
+      font-family: 'Cairo', sans-serif;
+    }
+
+    input[type='text']::placeholder {
+      color: #ccc;
+    }
+
+    span {
+      background: darkorange;
+      color: #fff;
+      border-radius: 3px;
+      padding: 0 5px;
+    }
+
+    a {
+      text-decoration: none;
+      background: #ccc;
+      border-radius: 3px;
+      padding: 0 5px;
+      color: #333;
+      opacity: 0.8;
+    }
+
+    a:hover {
+      opacity: 1;
+    }
+
+    #result_input {
+      font-size: 14px;
+      padding: .5rem;
+    }
+
+    code {
+      background: lightblue;
+      border-radius: 3px;
+      padding: .2rem .5rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="main">
+    <h1>Easy Number Separator</h1>
+
+    <input type="text" class="number-separator" placeholder="Enter Your Number..." />
+
+    <p>
+      It helps you to separate numbers when entered in a input text.
+      <br />
+
+      Just call <code>easyNumberSeparator()</code> function and pass your class input to this.
+      :)
+    </p>
+
+    <p>
+      If you want to send data to the server, you can set a result input by <code>resultInput</code> property and hold
+      the original value.
+    </p>
+
+    <input type="text" id="result_input" name="">
+
+    <br />
+    <br />
+
+    <a href="https://github.com/amiryxe/easy-number-separator/" target="_blank">View Guide and download</a>
+    <a href="https://github.com/amiryxe/" target="_blank">amiryxe Github</a>
+  </div>
+
+  <script src="easy-number-separator.js"></script>
+
+  <script>
+    easyNumberSeparator({
+      selector: '.number-separator',
+      separator: ',',
+      resultInput: '#result_input',
+    })
+  </script>
+
+</body>
+
+</html>

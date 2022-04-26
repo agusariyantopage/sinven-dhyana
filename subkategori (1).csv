@@ -1,0 +1,143 @@
+1,1,11,Tanah Pertanian,1,
+2,1,12,Tanah Perkebunan,1,
+3,1,13,Tanah Bangunan Gedung,1,
+4,1,14,Tanah Untuk Bangunan Bukan Gedung,1,
+5,1,15,Tanah Kuburan,1,
+6,2,11,Bangunan Tempat Kerja/Usaha/Sosial,1,
+7,2,12,Bangunan Rumah Ibadah,1,
+8,2,13,Bangunan Pastori/Rumah Dinas/Mess,1,
+9,2,14,Bangunan Bersejarah/Monumen,1,
+10,2,15,Jalan dan Jembatan,1,
+11,2,16,Bangunan Air/Irigasi,1,
+12,2,17,Instalasi/Jaringan Air Bersih,1,
+13,2,18,Instalasi/Jaringan Air Kotor,1,
+14,2,19,Instalasi/Jaringan Gardu Listrik,1,
+15,2,20,Instalasi/Jaringan Pengolahan Limbah,1,
+16,2,21,Instalasi/Jaringan Gas,1,
+17,2,22,Instalasi/Jaringan Telepon,1,
+18,3,31,Alat-alat Bantu,1,
+19,3,11,Compressor,1,31
+20,3,12,Electric Generating Set,1,31
+21,3,13,Pompa,1,31
+22,3,14,Mesin Bor,1,31
+23,3,15,Unit Pemeliharaan Lapangan,1,31
+24,3,16,Alat Pengolahan Air Kotor,1,31
+25,3,17,Pembangkit Sistem Generator,1,31
+26,3,18,Mesin Molen,1,31
+27,3,19,Stamper,1,31
+28,3,20,Alat Potong Rumput,1,31
+29,3,21,Tenda Knock Down,1,31
+30,3,22,Pengadaan Penerangan Jalan Umum,1,31
+31,3,32,Alat Angkut kendaraan Bermotor,1,
+32,3,11,Kendaraan Roda Empat ke Atas,1,32
+33,3,12,Kendaraan Bermotor Beroda Dua,1,32
+34,3,33,Alat Ukur,1,
+35,3,11,Alat Ukur universal,1,33
+36,3,12,Alat Ukur/Test Intelegensia,1,33
+37,3,13,Alat Ukur/Test Alat Kepribadian,1,33
+38,3,14,Alat Ukur /Test Klinis Lain,1,33
+39,3,15,Alat Calibrasi,1,33
+40,3,16,Oscilloscope,1,33
+41,3,17,Universal Tester,1,33
+42,3,18,Alat Ukur/Pembanding,1,33
+43,3,19,Alat Timbangan/Blora,1,33
+44,3,20,Anak Timbangan/Biasa,1,33
+45,3,21,Takaran Kering,1,33
+46,3,22,Takaran Bahan Bangunan 2 HL,1,33
+47,3,23,Takaran Latex/Getah Susu,1,33
+48,3,24,Gelas Takar Berbagai Capasitas,1,33
+49,3,25,Alat Ukur Lainnya,1,33
+50,3,34,Alat Pengolahan,1,
+51,3,11,Alat Pengolahan Tanah dan Tanaman,1,34
+52,3,12,Alat Panen/Pengolahan,1,34
+53,3,13,Alat-Alat Peternakan,1,34
+54,3,14,Alat Penyimpanan Hasil Percobaan Pertanian,1,34
+55,3,15,Alat Laboratorium Pertanian,1,34
+56,3,16,Alat Processing,1,34
+57,3,17,Alat Pasca Panen,1,34
+58,3,18,Alat Produksi Perikanan,1,34
+59,3,35,Alat Pemeliharaan Tanaman/Alat Penyimpan,1,
+60,3,11,Alat Pemeliharaan Tanaman,1,35
+61,3,12,Alat Panen,1,35
+62,3,13,Alat Penyimpanan,1,35
+63,3,14,Alat Laboratorium,1,35
+64,3,15,Alat Penangkap Ikan,1,35
+65,3,36,Alat Kantor,1,
+66,3,11,Mesin Tik,1,36
+67,3,12,Mesin Hitung/Jumlah,1,36
+68,3,13,Alat Reproduksi (Pengganda),1,36
+69,3,14,Alat Penyimpanan Perlengkapan Kantor,1,36
+70,3,15,Alat Kantor Lainnya,1,36
+71,3,16,Mesin Absensi,1,36
+72,3,17,Mesin Antrian,1,36
+73,3,18,CCTV,1,36
+74,3,19,Intercom (PABX),1,36
+75,3,20,Papan Visual Elektronik,1,36
+76,3,21,Mesin Penghancur Kertas,1,36
+77,3,22,White board,1,36
+78,3,23,Kotak Saran,1,36
+79,3,24,Air Conditioner (AC),1,36
+80,3,25,Filling Kabinet,1,36
+81,3,26,Air Cooler,1,36
+82,3,27,Korden / Vertical Blinds,1,36
+83,3,28,Wall Screen,1,36
+84,3,29,Papan Informasi,1,36
+85,3,30,Brankas,1,36
+86,3,31,Papan Nama Kantor,1,36
+87,3,32,Wireless,1,36
+88,3,33,Toilet Portable,1,36
+89,3,34,Tangki Air,1,36
+90,3,37,Alat Rumah Tangga,1,
+91,3,11,Meubelair,1,37
+92,3,12,Alat Pengukur Waktu,1,37
+93,3,13,Alat Pembersih,1,37
+94,3,14,Alat Pendingin,1,37
+95,3,15,Alat Dapur,1,37
+96,3,16,Alat Rumah Tangga Lainnya (Home Use),1,37
+97,3,17,Alat Pemadam Kebakaran,1,37
+98,3,18,Televisi,1,37
+99,3,38,Komputer,1,
+100,3,11,Komputer Unit/Jaringan,1,38
+101,3,12,Personal Komputer,1,38
+102,3,13,Peralatan Komputer Mainframe,1,38
+103,3,14,Peralatan Mini Komputer,1,38
+104,3,15,Peralatan Personal Komputer,1,38
+105,3,16,Peralatan Jaringan,1,38
+106,3,17,Printer/Scanner,1,38
+107,3,18,UPS/Stabilizer,1,38
+108,3,19,Rak Server,1,38
+109,3,20,Perangkat Layanan Informasi,1,38
+110,3,21,Software Berlisensi,1,38
+111,3,22,Proyektor,1,38
+112,3,23,Mainframe/Server,1,38
+113,3,24,Aplikasi/Software,1,38
+114,3,39,Meja Dan Kursi Kerja/Rapat Pejabat,1,
+115,3,11,Meja Kerja Pejabat,1,39
+116,3,12,Meja Rapat Pejabat,1,39
+117,3,13,Kursi Kerja Pejabat,1,39
+118,3,14,Kursi Rapat Pejabat,1,39
+119,3,15,Kursi Hadap Depan Meja Kerja Pejabat,1,39
+120,3,16,Kursi Tamu di Ruang Pejabat,1,39
+121,3,17,Lemari dan Arsip Pejabat,1,39
+122,3,18,Meja Front Office,1,39
+123,3,40,Alat Studio,1,
+124,3,11,Peralatan Studio Visual,1,40
+125,3,12,Peralatan Studio Video dan Film,1,40
+126,3,13,Peralatan Studio Video dan Film A,1,40
+127,3,14,Peralatan Cetak,1,40
+128,3,15,Peralatan Computing,1,40
+129,3,16,Peralatan Pemetaan Ukur,1,40
+130,3,17,Peralatan Studio Audio,1,40
+131,3,18,Camera,1,40
+132,3,19,Sound System,1,40
+133,3,41,Alat Komunikasi,1,
+134,3,11,Alat Komunikasi Telephone,1,41
+135,3,12,Alat Komunikasi Radio,1,41
+136,3,42,Peralatan Pemancar,1,
+137,3,43,Alat Kedokteran,1,
+138,3,44,Alat Kesehatan,1,
+139,3,45,Alat Laboratorium,1,
+140,3,46,Alat Peraga/Praktek Sekolah,1,
+141,4,11,Tanaman,1,
+142,4,12,Ternak,1,
+143,5,11,Konstruksi Dalam Pengerjaan,1,
