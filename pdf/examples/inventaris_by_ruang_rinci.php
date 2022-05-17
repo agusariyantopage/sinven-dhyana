@@ -130,7 +130,11 @@ while ($r1 = mysqli_fetch_array($perintah1)) {
 		//$tot=$r['qty_baik']+$r['qty_rusak'];
 		$umur_barang=abs(strtotime($tanggal)-strtotime($r['tanggal_perolehan']));
 		$umur_tahun=floor($umur_barang / (365*60*60*24));
-		$depr_tahun=$r['apresiasi_per_tahun']/100*$r['nilai_perolehan'];
+		if($umur_tahun>=1){
+			$depr_tahun=$r['apresiasi_per_tahun']/100*$r['nilai_perolehan'];
+		} else {
+			$depr_tahun=0;
+		}
 		$depr_akumulasi=$depr_tahun*$umur_tahun;
 		if(-1*$depr_akumulasi>$r['nilai_perolehan']){
 			$depr_akumulasi=-1*$r['nilai_perolehan'];
