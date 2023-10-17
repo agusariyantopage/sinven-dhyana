@@ -71,7 +71,7 @@
 	elseif ($_GET['p']=='inventarisrekap') {
 		include "konten/inventaris_rekap.php";}	
 	
-// Modul yang hanya diaktifkan di pendataan awal
+// Modul yang hanya diaktifkan di pendataan awal ## START
 	elseif ($_GET['p']=='inventaris'&&$finalda==0&&$tipeakses=='Unit') {
 		include "konten/inventaris.php";}
 	elseif ($_GET['p']=='addinventaris'&&$finalda==0&&$tipeakses=='Unit') {
@@ -88,7 +88,7 @@
 		include "konten/inventaris_perbaikan_ubah.php";}
 	elseif ($_GET['p']=='finalisasi-dataawal'&&$tipeakses=='Unit') {
 		include "konten/inventaris_finalisasida.php";}	
-// Modul yang hanya diaktifkan di awal
+// Modul yang hanya diaktifkan di awal ## END
 				
 	elseif ($_GET['p']=='tambahitem'&&$tipeakses=='Unit'&&$finalda==1) {
 		include "konten/tambahitem.php";}	
@@ -149,6 +149,13 @@
 	elseif ($_GET['p']=='habispakai-rinci'&&$tipeakses=='Unit'&&$finalda==1) {
 		include "konten/habispakai_unit_rinci.php";}	
 	
+	// Modul Barcode		
+	elseif ($_GET['p']=='barcode'&&$tipeakses=='Yayasan') {
+		include "konten/barcode_by_unit.php";}
+	elseif ($_GET['p']=='barcode-unit'&&$tipeakses=='Yayasan') {
+		include "konten/barcode_unit.php";}
+	elseif ($_GET['p']=='barcode-by-lokasi'&&$tipeakses=='Yayasan') {
+		include "konten/barcode_list_unit_by_lokasi.php";}	
 	elseif ($_GET['p']=='barcode'&&$tipeakses=='Unit') {
 		include "konten/barcode_list.php";}
 	elseif ($_GET['p']=='barcode-by-lokasi'&&$tipeakses=='Unit') {
@@ -182,5 +189,4 @@
 			include "konten/statistikunit.php";}			
 	else {
 		include "konten/akses_ditolak.php";
-	}																			
-?>
+	}

@@ -17,6 +17,7 @@
 	$x11	=$_POST['nilai_perolehan'];
 	$x11=str_replace(',','',$x11);
 	$lokasiasli=$_POST['lokasi_asli'];
+	$nilai_perolehan_asli=$_POST['nilai_perolehan_asli'];
 	date_default_timezone_set('Asia/Singapore');
 	$tanggal=date('Y-m-d');
 	$jam=date('H:i:s');
@@ -24,7 +25,7 @@
 	$input_id = date_timestamp_get($date);
 	
 	// Hapus Data Lama
-	$sql="delete from barang_detail where lokasi='$lokasiasli'and id_unitkerja='$x1a' and id_barang='$x0'";
+	$sql="DELETE from barang_detail where lokasi='$lokasiasli'and id_unitkerja='$x1a' and id_barang='$x0' AND nilai_perolehan=$nilai_perolehan_asli";
 	mysqli_query($koneksi,$sql);
 	
 	// Perintah Insert Tabel

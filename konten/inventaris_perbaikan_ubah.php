@@ -6,6 +6,8 @@ $r1=mysqli_fetch_array($perintah1);
 $lokasi=$_GET['lokasi'];
 $qtybaik=$_GET['qtybaik'];
 $qtyrusak=$_GET['qtyrusak'];
+$tanggal_perolehan=$_GET['tanggal_perolehan'];
+$nilai_perolehan=$_GET['nilai_perolehan'];
 
 ?>
 
@@ -43,6 +45,7 @@ $qtyrusak=$_GET['qtyrusak'];
 						<!-- Isian Form -->
 						<form method="post" action="aksi_inventarisperbaikan_ubah.php">
 							<input name="id" id="id" type="hidden" value="<?= $r1['id_barang']; ?>">
+							<input name="nilai_perolehan_asli"type="hidden" value="<?= $nilai_perolehan; ?>">
 							<input name="lokasi_asli" id="lokasi_asli" type="hidden" value="<?= $lokasi; ?>">
 							<div class="form-group">
 								<label for="idunitkerja">Unit Kerja</label>
@@ -122,11 +125,11 @@ $qtyrusak=$_GET['qtyrusak'];
 							</div>
 							<div class="form-group">
 								<label for="tanggal_perolehan">Tanggal Perolehan Barang</label>
-								<input  type="date" required="" name="tanggal_perolehan" id="tanggal_perolehan" value="<?= $r1['tanggal_perolehan']; ?>" placeholder="Masukkan Tanggal Perolehan . . ." class="form-control">
+								<input  type="date" required="" name="tanggal_perolehan" id="tanggal_perolehan" value="<?= $tanggal_perolehan; ?>" placeholder="Masukkan Tanggal Perolehan . . ." class="form-control">
 							</div>
 							<div class="form-group">
 								<label for="nilai_perolehan">Nilai Perolehan</label>
-								<input  type="text" required="" name="nilai_perolehan" id="nilai_perolehan" value="<?= $r1['nilai_perolehan']; ?>" placeholder="Masukkan Nilai Perolehan . . ." class="form-control number-separator">
+								<input  type="text" required="" name="nilai_perolehan" id="nilai_perolehan" value="<?= $nilai_perolehan; ?>" placeholder="Masukkan Nilai Perolehan . . ." class="form-control number-separator">
 							</div>	
 								
 							<div class="form-group">

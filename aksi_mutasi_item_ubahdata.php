@@ -7,10 +7,11 @@
 	$x1	=$_POST['catatan'];
 	$x2	=$_POST['lokasi'];
 	$x3=$_POST['nilai_perolehan'];
+	$x4=$_POST['tanggal_perolehan'];
 	
 
 	// Perintah Insert Tabel
-	$perintah="update barang_detail set catatan='$x1',lokasi='$x2',nilai_perolehan=$x3 where id_barang_detail=$x0";
+	$perintah="update barang_detail set catatan='$x1',lokasi='$x2',nilai_perolehan=$x3,tanggal_perolehan='$x4',perubahan_terakhir=DEFAULT where id_barang_detail=$x0";
 	mysqli_query($koneksi,$perintah);
 	$sukses=mysqli_affected_rows($koneksi);
 	if($sukses>=1){
@@ -31,5 +32,6 @@
 	];
 
 	// Mengarahkan Ke Halaman Daftar	
+	//echo $perintah;
 	header("location:index.php?p=mutasiitem");
 ?>
