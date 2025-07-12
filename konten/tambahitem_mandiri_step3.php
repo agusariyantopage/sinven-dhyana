@@ -115,6 +115,10 @@ $r1=mysqli_fetch_array($perintah1);
 							<div class="form-group">
 								<label for="nilai">Estimasi Harga Perolehan</label>
 								<input  type="number" required="" name="nilai" id="nilai" placeholder="Masukkan estimasi nilai perolehan . . ." class="form-control">
+							</div>
+							<div class="form-group">
+								<label for="catatan">Catatan</label>
+								<input  type="text" name="catatan" id="catatan" placeholder="Masukkan catatan . . ." class="form-control">
 							</div>						
 							<button type="submit" class="btn btn-primary" onclick="return confirm('Pastikan Data Yang Anda Masukkan Sudah Benar,Apakah Anda Yakin Akan Melanjutkan?')">Simpan</button>
 

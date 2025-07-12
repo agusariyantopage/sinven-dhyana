@@ -48,10 +48,10 @@ var x = setInterval(function() {
   //Pengguna Belum
   // Akses Yayasan / Unit Kerja
   if($_SESSION['level']==1) {
-    $sql1="select COUNT(IF(kondisi = 'Baik', 1, NULL)) as qty_baik,COUNT(IF(kondisi = 'Rusak', 1, NULL)) as qty_rusak,COUNT(IF(kondisi = 'Dipinjam', 1, NULL)) as qty_pinjam,COUNT(kondisi) as qty_total from barang_detail";
+    $sql1="SELECT COUNT(IF(kondisi = 'Baik', 1, NULL)) as qty_baik,COUNT(IF(kondisi = 'Rusak', 1, NULL)) as qty_rusak,COUNT(IF(kondisi = 'Hilang', 1, NULL)) as qty_hilang,COUNT(kondisi) as qty_total from barang_detail";
   } else {
     $id_unit= $_SESSION['idunit'];
-    $sql1="select COUNT(IF(kondisi = 'Baik', 1, NULL)) as qty_baik,COUNT(IF(kondisi = 'Rusak', 1, NULL)) as qty_rusak,COUNT(IF(kondisi = 'Dipinjam', 1, NULL)) as qty_pinjam,COUNT(kondisi) as qty_total from barang_detail where barang_detail.id_unitkerja=$id_unit";
+    $sql1="SELECT COUNT(IF(kondisi = 'Baik', 1, NULL)) as qty_baik,COUNT(IF(kondisi = 'Rusak', 1, NULL)) as qty_rusak,COUNT(IF(kondisi = 'Hilang', 1, NULL)) as qty_hilang,COUNT(kondisi) as qty_total from barang_detail where barang_detail.id_unitkerja=$id_unit";
   }
   // -- Akses Yayasan / Unit Kerja
   
@@ -60,20 +60,20 @@ var x = setInterval(function() {
   if($r1['qty_total'] > 0){
     $qty_baik=$r1['qty_baik'];
     $qty_rusak=$r1['qty_rusak'];
-    $qty_pinjam=$r1['qty_pinjam'];
+    $qty_hilang=$r1['qty_hilang'];
     $total_item=$r1['qty_total'];
     $Psqty_baik=round($qty_baik/$total_item*100,2);
     $Psqty_rusak=round($qty_rusak/$total_item*100,2);
-    $Psqty_pinjam=round($qty_pinjam/$total_item*100,2);
+    $Psqty_hilang=round($qty_hilang/$total_item*100,2);
   }  
   else {
     $qty_baik=0;
     $qty_rusak=0;
-    $qty_pinjam=0;
+    $qty_hilang=0;
     $total_item=0;
     $Psqty_baik=0;
     $Psqty_rusak=0;
-    $Psqty_pinjam=0;
+    $Psqty_hilang=0;
   }  
   
 
@@ -176,7 +176,7 @@ var x = setInterval(function() {
               <div class="info-box-content">
                 <span class="info-box-text">Barang Kondisi Baik</span>
                 <span class="info-box-number">
-                  <?= $qty_baik; ?> ( <?= $Psqty_baik; ?> %)
+                  <?= number_format($qty_baik); ?> ( <?= $Psqty_baik; ?> %)
                 </span>
               </div>
               <!-- /.info-box-content -->
@@ -190,7 +190,7 @@ var x = setInterval(function() {
 
               <div class="info-box-content">
                 <span class="info-box-text">Barang Kondisi Rusak</span>
-                <span class="info-box-number"><?= $qty_rusak; ?> ( <?= $Psqty_rusak; ?> %)</span>
+                <span class="info-box-number"><?= number_format($qty_rusak); ?> ( <?= $Psqty_rusak; ?> %)</span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -203,11 +203,11 @@ var x = setInterval(function() {
 
           <div class="col-12 col-sm-6 col-md-3">
             <div class="info-box mb-3">
-              <span class="info-box-icon bg-info elevation-1"><i class="fas fa-truck"></i></span>
+              <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-times"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">Barang Dipinjam</span>
-                <span class="info-box-number"><?= $qty_pinjam; ?> ( <?= $Psqty_pinjam; ?> %)</span>
+                <span class="info-box-text">Barang Hilang</span>
+                <span class="info-box-number"><?= number_format($qty_hilang); ?> ( <?= $Psqty_hilang; ?> %)</span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -220,7 +220,7 @@ var x = setInterval(function() {
 
               <div class="info-box-content">
                 <span class="info-box-text">Total Barang</span>
-                <span class="info-box-number"><?= $total_item; ?></span>
+                <span class="info-box-number"><?= number_format($total_item); ?></span>
               </div>
               <!-- /.info-box-content -->
             </div>

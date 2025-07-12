@@ -52,15 +52,17 @@
                 <tr>
                   <th rowspan="2">Lokasi</th>
                   <th rowspan="2">Deskripsi</th>
+                  <th rowspan="2">Catatan</th>
                   <th rowspan="2">Tanggal Perolehan</th>
                   <th rowspan="2">Nilai Perolehan</th>
                   <th rowspan="2">Unit Kerja</th>
-                  <th colspan="3" style="text-align:center;">Jumlah Barang</th>
+                  <th colspan="4" style="text-align:center;">Jumlah Barang</th>
                   <th rowspan="2">Aksi</th>
                 </tr>
                 <tr>
                   <th>Baik</th>
                   <th>Rusak</th>
+                  <th>Hilang</th>
                   <th>Total</th>
                 </tr>
               </thead>
@@ -68,10 +70,10 @@
                 <?php
                 // Akses Yayasan / Unit Kerja
                 if ($_SESSION['level'] == 1) {
-                  $sql = "select barang_detail.*,barang.*,nama_panjang,COUNT(IF(kondisi = 'Baik', 1, NULL)) as qty_baik,COUNT(IF(kondisi = 'Rusak', 1, NULL)) as qty_rusak from barang_detail,barang,unit_kerja where barang_detail.id_barang=barang.id_barang and unit_kerja.id_unit=barang_detail.id_unitkerja GROUP BY barang_detail.id_barang,barang_detail.id_unitkerja,lokasi";
+                  $sql = "SELECT barang_detail.*,barang.*,nama_panjang,COUNT(IF(kondisi = 'Baik', 1, NULL)) as qty_baik,COUNT(IF(kondisi = 'Rusak', 1, NULL)) as qty_rusak,COUNT(IF(kondisi = 'Hilang', 1, NULL)) as qty_hilang from barang_detail,barang,unit_kerja where barang_detail.id_barang=barang.id_barang and unit_kerja.id_unit=barang_detail.id_unitkerja GROUP BY barang_detail.id_barang,barang_detail.id_unitkerja,lokasi";
                 } else {
                   $id_unit = $_SESSION['idunit'];
-                  $sql = "select barang_detail.*,barang.*,nama_panjang,COUNT(IF(kondisi = 'Baik', 1, NULL)) as qty_baik,COUNT(IF(kondisi = 'Rusak', 1, NULL)) as qty_rusak from barang_detail,barang,unit_kerja where barang_detail.id_barang=barang.id_barang and unit_kerja.id_unit=barang_detail.id_unitkerja and barang_detail.id_unitkerja=$id_unit GROUP BY barang_detail.id_barang,barang_detail.id_unitkerja,lokasi,nilai_perolehan,tanggal_perolehan";
+                  $sql = "SELECT barang_detail.*,barang.*,nama_panjang,COUNT(IF(kondisi = 'Baik', 1, NULL)) as qty_baik,COUNT(IF(kondisi = 'Rusak', 1, NULL)) as qty_rusak,COUNT(IF(kondisi = 'Hilang', 1, NULL)) as qty_hilang from barang_detail,barang,unit_kerja where barang_detail.id_barang=barang.id_barang and unit_kerja.id_unit=barang_detail.id_unitkerja and barang_detail.id_unitkerja=$id_unit GROUP BY barang_detail.id_barang,barang_detail.id_unitkerja,lokasi,nilai_perolehan,tanggal_perolehan,barang_detail.catatan";
                 }
                 // -- Akses Yayasan / Unit Kerja  
                 //echo $sql;
@@ -81,16 +83,18 @@
                   <tr>
                     <td><?= $r['lokasi']; ?></td>
                     <td><?= $r['deskripsi']; ?></td>
+                    <td><?= $r['catatan']; ?></td>
                     <td><?= $r['tanggal_perolehan']; ?></td>
                     <td align="right"><?= number_format($r['nilai_perolehan']); ?></td>
                     <td><?= $r['nama_panjang']; ?></td>
                     <td><?= $r['qty_baik']; ?></td>
                     <td><?= $r['qty_rusak']; ?></td>
-                    <td><?= $r['qty_baik'] + $r['qty_rusak']; ?></td>
+                    <td><?= $r['qty_hilang']; ?></td>
+                    <td><?= $r['qty_baik'] + $r['qty_rusak']+ $r['qty_hilang']; ?></td>
                     <td>
-                      <a href="index.php?p=inventarisperbaikanubah&lokasi=<?= $r['lokasi']; ?>&id_unitkerja=<?= $r['id_unitkerja']; ?>&id_barang=<?= $r['id_barang']; ?>&qtybaik=<?= $r['qty_baik']; ?>&qtyrusak=<?= $r['qty_rusak']; ?>&nilai_perolehan=<?= $r['nilai_perolehan']; ?>&tanggal_perolehan=<?= $r['tanggal_perolehan']; ?>"><span class="fas fa-edit"></span></a>
+                      <a href="index.php?p=inventarisperbaikanubah&lokasi=<?= $r['lokasi']; ?>&id_unitkerja=<?= $r['id_unitkerja']; ?>&id_barang=<?= $r['id_barang']; ?>&qtybaik=<?= $r['qty_baik']; ?>&qtyrusak=<?= $r['qty_rusak']; ?>&qtyhilang=<?= $r['qty_hilang']; ?>&nilai_perolehan=<?= $r['nilai_perolehan']; ?>&tanggal_perolehan=<?= $r['tanggal_perolehan']; ?>&catatan=<?= $r['catatan']; ?>"><span class="fas fa-edit"></span></a>
                       &nbsp;
-                      <a href="aksi_inventarisperbaikan_hapus.php?lokasi=<?= $r['lokasi']; ?>&id_unitkerja=<?= $r['id_unitkerja']; ?>&id_barang=<?= $r['id_barang']; ?>&nilai_perolehan=<?= $r['nilai_perolehan']; ?>" onclick="return confirm('Apakah Anda Yakin Akan Menghapus Semua Data Inventaris Pada Lokasi Ini?')"><span class="fas fa-trash"></span></a>
+                      <a href="aksi_inventarisperbaikan_hapus.php?lokasi=<?= $r['lokasi']; ?>&id_unitkerja=<?= $r['id_unitkerja']; ?>&id_barang=<?= $r['id_barang']; ?>&nilai_perolehan=<?= $r['nilai_perolehan']; ?>&catatan=<?= $r['catatan']; ?>" onclick="return confirm('Apakah Anda Yakin Akan Menghapus Semua Data Inventaris Pada Lokasi Ini?')"><span class="fas fa-trash"></span></a>
                       &nbsp;
                     </td>
 

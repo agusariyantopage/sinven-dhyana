@@ -34,13 +34,13 @@ $pdf = new TCPDF('P', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
 // set document information
 $pdf->SetCreator(PDF_CREATOR);
-$pdf->SetAuthor('Yayasan Triatma Surya Jaya');
+$pdf->SetAuthor('Yayasan Dhyana Pura');
 $pdf->SetTitle('Cetak QR-Code Medium Correction Koleksi Inventaris');
 $pdf->SetSubject('Cetak Barcode');
 $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 
 // set default header data
-$title="Aplikasi Inventaris Yayasan Triatma Surya Jaya";
+$title="Aplikasi Inventaris Yayasan Dhyana Pura";
 $subtitle="Cetak QR-CODE Inventaris";
 $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
 //$pdf->setFooterData(array(0,64,0), array(0,64,128));

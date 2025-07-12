@@ -34,13 +34,13 @@ $pdf = new TCPDF('P', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
 // set document information
 $pdf->SetCreator(PDF_CREATOR);
-$pdf->SetAuthor('Yayasan Triatma Surya Jaya');
+$pdf->SetAuthor('Yayasan Dhyana Pura');
 $pdf->SetTitle('Cetak QR-Code Medium Correction Koleksi Inventaris');
 $pdf->SetSubject('Cetak Barcode');
 $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 
 // set default header data
-$title="Aplikasi Inventaris Yayasan Triatma Surya Jaya";
+$title="Aplikasi Inventaris Yayasan Dhyana Pura";
 $subtitle="Cetak QR-CODE Inventaris";
 $pdf->SetHeaderData('', PDF_HEADER_LOGO_WIDTH, $title, $subtitle);
 //$pdf->setFooterData(array(0,64,0), array(0,64,128));
@@ -122,7 +122,7 @@ while ($r=mysqli_fetch_array($perintah)) {
 		}	
 	} 
 	// QRCODE,M : QR-CODE Medium error correction
-	$params = $pdf->serializeTCPDFtagParameters(array('http://223.27.155.188/si-inven/view-item.php?id='.$r['id_barang_detail'], 'QRCODE,M', '', '', '', 50, array($style), 'N'));
+	$params = $pdf->serializeTCPDFtagParameters(array('https://inventaris.dhyanapura.org/view-item.php?id='.$r['id_barang_detail'], 'QRCODE,M', '', '', '', 50, array($style), 'N'));
 	$html.='<td height="50" align="center">'. $r['id_barang_detail'].'<br><tcpdf method="write2DBarcode" params="'.$params.'" /><font style="font-size:8px"><br>'.$r['lokasi'].':'.$r['deskripsi'].'</font></td>';
 	//$html.='<td>1</td>';
 	//$pdf->write2DBarcode('http://localhost/admin/index.php?p=inventarisrinci&id='.$r['id_barang_detail'], 'QRCODE,M', '', '', '', 50, $style, 'N');

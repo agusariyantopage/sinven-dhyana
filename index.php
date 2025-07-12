@@ -431,7 +431,18 @@ $app = new Flasher;
 
               </li>
             <?php
-            }
+            } else {
+            ?>
+            <li class="nav-item">
+              <a href="index.php?p=statistikinven" class="nav-link">
+                <i class="nav-icon fas fa-table"></i>
+                <p>
+                  Statistik
+                </p>
+              </a>
+            </li>
+            <?php
+              }
             ?>
             <li class="nav-item">
               <a href="index.php?p=barcode" class="nav-link">
@@ -451,6 +462,30 @@ $app = new Flasher;
                 </p>
               </a>
             </li>
+            <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-cog"></i>
+              <p>
+                Pemeliharaan
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="index.php?p=backup" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Backup</p>
+
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="index.php?p=restore" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Restore</p>
+                </a>
+              </li>              
+            </ul>
+          </li>
             <li class="nav-item">
               <a href="index.php?p=bantuan" class="nav-link">
                 <i class="nav-icon fas fa-question-circle"></i>
@@ -592,6 +627,13 @@ $app = new Flasher;
   <!-- Page specific script -->
   <script>
     $(function() {
+      $("#export").DataTable({
+        "responsive": true,
+        "lengthChange": false,
+        "paging": false,
+        "autoWidth": false,
+        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+      }).buttons().container().appendTo('#export_wrapper .col-md-6:eq(0)');
       $("#example1").DataTable({
         "responsive": true,
         "lengthChange": false,

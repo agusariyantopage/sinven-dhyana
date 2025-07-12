@@ -1,14 +1,24 @@
+<?php
+$id = $_GET['id'];
+$sql1 = "select * from kategori where id_kategori=$id";
+//echo $sql1;
+$query1 = mysqli_query($koneksi, $sql1);
+$kol1 = mysqli_fetch_array($query1);
+$judul = $kol1['kategori'];
+$id_unit=$_SESSION['idunit'];
+?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1 class="m-0">Statistik Data Inventaris</h1>
+        <h1 class="m-0">Statistik [<?=$_SESSION['namalengkap']; ?>]</h1>
       </div><!-- /.col -->
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
           <li class="breadcrumb-item"><a href="#">Statistik</a></li>
-          <li class="breadcrumb-item active">Inventaris Umum</li>
+          <li class="breadcrumb-item"><a href="index.php?p=statistikinven">Inventaris Umum</a></li>
+          <li class="breadcrumb-item active"><?= $judul; ?></li>
         </ol>
       </div><!-- /.col -->
     </div><!-- /.row -->
@@ -21,11 +31,11 @@
       <div class="col-md-12">
         <div class="card card-primary">
           <div class="card-header">
-            <h3 class="card-title">Statistik Per Kategori</h3>
+            <h3 class="card-title">Statistik Per Subkategori</h3>
           </div>
           <!-- /.card-header -->
           <div class="card-body">
-            <table id="example1" class="table table-sm table-bordered table-striped">
+            <table id="example1" class="table table-bordered table-striped">
               <thead>
                 <tr>
                   <th>ID </th>
@@ -34,10 +44,7 @@
                   <th>Jml Rusak</th>
                   <th>Jml Hilang</th>
                   <th>Jml Total</th>
-                  <th>NP Baik</th>
-                  <th>NP Rusak</th>
-                  <th>NP Hilang</th>
-                  <th>NP Total</th>
+                  <th>Nilai Perolehan</th>
                 </tr>
               </thead>
               <tbody>
@@ -47,15 +54,12 @@
                 $sum_hilang = 0;
                 $sum_total_item = 0;
                 $sum_perolehan = 0;
-                $sum_nilai_baik=0;
-                $sum_nilai_rusak=0;
-                $sum_nilai_hilang=0;
 
-                $sql = "SELECT kategori.id_kategori,kategori,COUNT(IF(kondisi = 'Baik', 1, NULL)) as qty_baik,COUNT(IF(kondisi = 'Rusak', 1, NULL)) as qty_rusak,COUNT(IF(kondisi = 'Hilang', 1, NULL)) as qty_hilang,SUM(IF(kondisi = 'Baik', nilai_perolehan, 0)) as nilai_baik,SUM(IF(kondisi = 'Hilang', nilai_perolehan, 0)) as nilai_hilang,SUM(IF(kondisi = 'Rusak', nilai_perolehan, 0)) as nilai_rusak,SUM(barang_detail.nilai_perolehan) as total_perolehan from kategori left join subkategori on kategori.id_kategori=subkategori.id_kategori LEFT JOIN barang on barang.id_subkategori=subkategori.id_subkategori left join barang_detail on barang_detail.id_barang=barang.id_barang GROUP by kategori.id_kategori";
+                $sql = "SELECT subkategori.id_kategori,subkategori.id_subkategori,subkategori,COUNT(IF(kondisi = 'Baik' AND id_unitkerja=$id_unit, 1, NULL)) as qty_baik,COUNT(IF(kondisi = 'Rusak' AND id_unitkerja=$id_unit, 1, NULL)) as qty_rusak,COUNT(IF(kondisi = 'Hilang' AND id_unitkerja=$id_unit, 1, NULL)) as qty_hilang,SUM(IF(id_unitkerja=$id_unit,barang_detail.nilai_perolehan,0)) as total_perolehan from subkategori LEFT JOIN barang on barang.id_subkategori=subkategori.id_subkategori left join barang_detail on barang_detail.id_barang=barang.id_barang where id_kategori=$id GROUP by subkategori.id_subkategori";
 
                 // -- Akses Yayasan / Unit Kerja 
 
-                // echo $sql;
+                //  echo $sql;
                 $perintah = mysqli_query($koneksi, $sql);
                 while ($r = mysqli_fetch_array($perintah)) {
                   $qty_baik = $r['qty_baik'];
@@ -76,21 +80,14 @@
                   $sum_hilang = $sum_hilang + $qty_hilang;
                   $sum_total_item = $sum_total_item + $total_item;
                   $sum_perolehan = $sum_perolehan + $r['total_perolehan'];
-                  $sum_nilai_baik = $sum_nilai_baik + $r['nilai_baik'];
-                  $sum_nilai_hilang = $sum_nilai_hilang + $r['nilai_hilang'];
-                  $sum_nilai_rusak = $sum_nilai_rusak + $r['nilai_rusak'];
-
                 ?>
                   <tr>
-                    <td><?= $r['id_kategori']; ?></td>
-                    <td><a href="index.php?p=statistikinven2&id=<?= $r['id_kategori']; ?>"><?= $r['kategori']; ?></a></td>
+                    <td><?= $r['id_subkategori']; ?></td>
+                    <td><a href="index.php?p=statistikinven3&id=<?= $r['id_subkategori']; ?>&idkat=<?= $r['id_kategori']; ?>"><?= $r['subkategori']; ?></a></td>
                     <td align="right"><?= $r['qty_baik']; ?> (<?= $Psqty_baik; ?>%)</td>
                     <td align="right"><?= $r['qty_rusak']; ?> (<?= $Psqty_rusak; ?>%)</td>
                     <td align="right"><?= $r['qty_hilang']; ?> (<?= $Psqty_hilang; ?>%)</td>
                     <td align="right"><?= $total_item; ?></td>
-                    <td align="right"><?= number_format($r['nilai_baik']); ?></td>
-                    <td align="right"><?= number_format($r['nilai_rusak']); ?></td>
-                    <td align="right"><?= number_format($r['nilai_hilang']); ?></td>
                     <td align="right"><?= number_format($r['total_perolehan']); ?></td>
                   </tr>
                 <?php
@@ -100,20 +97,14 @@
               <tfoot align="right">
                 <tr>
                   <th colspan="2">Grandtotal</th>
-                  
                   <th align="right"><?= number_format($sum_baik); ?></th>
                   <th align="right"><?= number_format($sum_rusak); ?></th>
                   <th align="right"><?= number_format($sum_hilang); ?></th>
                   <th align="right"><?= number_format($sum_total_item); ?></th>
-                  <th align="right"><?= number_format($sum_nilai_baik); ?></th>
-                  <th align="right"><?= number_format($sum_nilai_rusak); ?></th>
-                  <th align="right"><?= number_format($sum_nilai_hilang); ?></th>
                   <th align="right"><?= number_format($sum_perolehan); ?></th>
-                 
                 </tr>
               </tfoot>
             </table>
-            <i>NP = Nilai Perolehan</i>
           </div>
           <!-- /.card-body -->
         </div>

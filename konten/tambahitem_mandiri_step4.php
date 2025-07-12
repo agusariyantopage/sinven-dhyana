@@ -64,8 +64,14 @@
                       // -- Akses Yayasan / Unit Kerja 
                       
                        //echo $sql;
+                       $total_item=0;
+                       $total_belanja=0;
                       $perintah=mysqli_query($koneksi,$sql);
-                      while ($r=mysqli_fetch_array($perintah)) {     
+                      while ($r=mysqli_fetch_array($perintah)) { 
+                        $total_item=$total_item+$r['qty'];
+                        $total_belanja=$total_belanja+($r['nilai_perolehan']*$r['qty']);
+                      
+
                     ?>              
                       <tr>
                         <td>
@@ -84,18 +90,12 @@
                   <?php
                     }
                   ?>                     
-                  </tbody>
-                  <tfoot>
                   <tr>
-                    <th>ID </th>
-                    <th>Deskripsi</th>
-                    <th>Harga</th> 
-                    <th>Jumlah</th>                                      
-                    <th>Lokasi Barang</th>
-                    <th>Batal</th> 
-                    
+                    <td colspan=3>TOTAL (Jumlah Item) | (Total Pengajuan)</td>
+                    <td align="right"><?= number_format($total_item); ?></td>
+                    <td colspan=2 align="right"><?= number_format($total_belanja); ?></td>
                   </tr>
-                  </tfoot>
+                </tbody>
                 </table><br>
                 <a href="index.php?p=tambahitem-mandiri-step2">
                   <button class="btn btn-primary">Tambah Item Lain</button>

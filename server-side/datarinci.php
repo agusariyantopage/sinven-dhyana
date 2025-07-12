@@ -22,15 +22,15 @@ require '../koneksi.php';
 
 if($_SESSION['jenisakses']=='Yayasan') {
 	$view_name='view_data_rinci_00';
-    $sql="create VIEW ".$view_name." as select barang_detail.*,deskripsi,spesifikasi,nama_panjang from barang_detail,barang,unit_kerja where barang_detail.id_barang=barang.id_barang and unit_kerja.id_unit=barang_detail.id_unitkerja";
+    $sql="CREATE VIEW ".$view_name." as SELECT barang_detail.*,deskripsi,spesifikasi,nama_panjang from barang_detail,barang,unit_kerja where barang_detail.id_barang=barang.id_barang and unit_kerja.id_unit=barang_detail.id_unitkerja";
   } else {
     $id_unit= $_SESSION['idunit'];
 	$view_name='view_data_rinci_'.$id_unit;
-    //$sql="select barang_detail.*,barang.*,nama_panjang from barang_detail,barang,unit_kerja where barang_detail.id_barang=barang.id_barang and unit_kerja.id_unit=barang_detail.id_unitkerja and barang_detail.id_unitkerja=$id_unit";
-    $sql="create VIEW ".$view_name." as select barang_detail.*,deskripsi,spesifikasi,nama_panjang from barang_detail,barang,unit_kerja where barang_detail.id_barang=barang.id_barang and unit_kerja.id_unit=barang_detail.id_unitkerja and barang_detail.id_unitkerja=$id_unit";
+    //$sql="SELECT barang_detail.*,barang.*,nama_panjang from barang_detail,barang,unit_kerja where barang_detail.id_barang=barang.id_barang and unit_kerja.id_unit=barang_detail.id_unitkerja and barang_detail.id_unitkerja=$id_unit";
+    $sql="CREATE VIEW ".$view_name." as SELECT barang_detail.*,deskripsi,spesifikasi,nama_panjang from barang_detail,barang,unit_kerja where barang_detail.id_barang=barang.id_barang and unit_kerja.id_unit=barang_detail.id_unitkerja and barang_detail.id_unitkerja=$id_unit";
     
   }
-  $sql1='drop view '.$view_name;
+  $sql1='DROP view '.$view_name;
   mysqli_query($koneksi,$sql1);
   mysqli_query($koneksi,$sql);
 
@@ -54,9 +54,11 @@ $columns = array(
 		'formatter' => function( $d, $row ) {
 			if($d == 'Baik'){
                 return "<span class='badge badge-success'>Baik</span>";
-            }else{
+            }else if($d == 'Rusak'){
                 return "<span class='badge badge-danger'>Rusak</span>";
-            }
+            } else {
+				return "<span class='badge badge-danger'>Hilang</span>";
+			}
         
 		}
 	),

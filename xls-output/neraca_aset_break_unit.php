@@ -37,13 +37,13 @@ while ($kolom_unit = mysqli_fetch_array($perintah_get_unit)) {
     $sheet->getCellByColumnAndRow($nextColoumn, 6)->setValue($kolom_unit['nama_panjang']);
     $nextColoumn++;
 }
-
+$sheet->getCellByColumnAndRow($nextColoumn, 6)->setValue('TOTAL');
 // Menampilkan Kategori
 $grandtotal = 0;
 $sql = "SELECT * from kategori order by kategori";
 $perintah = mysqli_query($koneksi, $sql);
 $nextRow = 7;
-while ($kolom = mysqli_fetch_array($perintah)) {
+while ($kolom = mysqli_fetch_array($perintah)) { // While Kategori
     $sheet->setCellValue('A' . $nextRow, $kolom['kategori']);
     // $sheet->mergeCells('A' . $nextRow . ':' . 'B' . $nextRow);
     $sheet->getStyle('A' . $nextRow)->getFont()->setBold(true);
@@ -51,7 +51,7 @@ while ($kolom = mysqli_fetch_array($perintah)) {
     $id_kategori = $kolom['id_kategori'];
     $sql2 = "SELECT * from subkategori where id_kategori=$id_kategori";
     $perintah2 = mysqli_query($koneksi, $sql2);
-    while ($kolom2 = mysqli_fetch_array($perintah2)) {
+    while ($kolom2 = mysqli_fetch_array($perintah2)) { // While Subkategori
         $sheet->setCellValue('A' . $nextRow, $kolom2['subkategori']);
         $id_subkategori = $kolom2['id_subkategori'];
 
@@ -59,7 +59,7 @@ while ($kolom = mysqli_fetch_array($perintah)) {
         $sql_get_unit = "SELECT * FROM unit_kerja ORDER BY nama_panjang";
         $perintah_get_unit = mysqli_query($koneksi, $sql_get_unit);
         while ($kolom_unit = mysqli_fetch_array($perintah_get_unit)) {
-           
+
             $id_unit = $kolom_unit['id_unit'];
             $sql3 = "SELECT sum(nilai_perolehan) as total from barang_detail,barang where barang_detail.id_barang=barang.id_barang and id_subkategori=$id_subkategori and barang_detail.id_unitkerja=$id_unit";
 
@@ -72,28 +72,59 @@ while ($kolom = mysqli_fetch_array($perintah)) {
             $sheet->getCellByColumnAndRow($nextColoumn, $nextRow)->setValue($total_subkategori);
             $grandtotal = $grandtotal + $total_subkategori;
 
-            
+
             $sheet->getStyleByColumnAndRow($nextColoumn, $nextRow)->getAlignment()->setHorizontal('right');
             $sheet->getStyleByColumnAndRow($nextColoumn, $nextRow)->getNumberFormat()->setFormatCode('#,##0.00');
-            $sheet->getColumnDimensionByColumn($nextColoumn+1)->setAutoSize(true);
+            $sheet->getColumnDimensionByColumn($nextColoumn + 1)->setAutoSize(true);
             $nextColoumn++;
         }
 
-
+        // SUM Per Sub Kategori
+        $sumSubkategori = "=SUM(" . $sheet->getCellByColumnAndRow(2, $nextRow)->getCoordinate() . ":" . $sheet->getCellByColumnAndRow($nextColoumn, $nextRow)->getCoordinate() . ")";
+        $sheet->getCellByColumnAndRow($nextColoumn, $nextRow)->setValue($sumSubkategori); // Total Subkategori
+        $sheet->getStyleByColumnAndRow($nextColoumn, $nextRow)->getAlignment()->setHorizontal('right');
+        $sheet->getStyleByColumnAndRow($nextColoumn, $nextRow)->getNumberFormat()->setFormatCode('#,##0.00');
         $nextRow++;
     }
 }
 
-// $sheet->setCellValue('A' . $nextRow, 'GRANDTOTAL');
+// SUMMARY OF UNIT
+$sheet->setCellValue('A' . $nextRow, 'GRANDTOTAL');
+$sheet->getStyle('A' . $nextRow)->getFont()->setBold(true);
+$nextColoumn = 2;
+$sql_get_unit = "SELECT * FROM unit_kerja ORDER BY nama_panjang";
+$perintah_get_unit = mysqli_query($koneksi, $sql_get_unit);
+while ($kolom_unit = mysqli_fetch_array($perintah_get_unit)) {
+    $sumUnitKerja = "=SUM(" . $sheet->getCellByColumnAndRow($nextColoumn, 7)->getCoordinate() . ":" . $sheet->getCellByColumnAndRow($nextColoumn, $nextRow)->getCoordinate() . ")";
+    $sheet->getCellByColumnAndRow($nextColoumn, $nextRow)->setValue($sumUnitKerja); // Total UnitKerja
+    $sheet->getStyleByColumnAndRow($nextColoumn, $nextRow)->getAlignment()->setHorizontal('right');
+    $sheet->getStyleByColumnAndRow($nextColoumn, $nextRow)->getNumberFormat()->setFormatCode('#,##0.00');
+    $nextColoumn++;
+}
+$sumUnitKerja = "=SUM(" . $sheet->getCellByColumnAndRow($nextColoumn, 7)->getCoordinate() . ":" . $sheet->getCellByColumnAndRow($nextColoumn, $nextRow)->getCoordinate() . ")";
+$sheet->getCellByColumnAndRow($nextColoumn, $nextRow)->setValue($sumUnitKerja); // Total UnitKerja
+$sheet->getStyleByColumnAndRow($nextColoumn, $nextRow)->getAlignment()->setHorizontal('right');
+$sheet->getStyleByColumnAndRow($nextColoumn, $nextRow)->getNumberFormat()->setFormatCode('#,##0.00');
 // $sheet->setCellValue('B' . $nextRow, $grandtotal);
-// $sheet->getStyle('A' . $nextRow)->getFont()->setBold(true);
 // $sheet->getStyle('B' . $nextRow)->getFont()->setBold(true);
 // $sheet->getStyle('B' . $nextRow)->getAlignment()->setHorizontal('right');
 // $sheet->getStyle('B' . $nextRow)->getNumberFormat()->setFormatCode('#,##0.00');
 
+// Set Border
+$styleArray = [
+    'borders' => [
+        'allBorders' => [
+            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+            'color' => ['argb' => '00000000'],
+        ],
+    ],
+];
+
+$sheet->getStyle('A6' . ':' . 'G' . $nextRow)->applyFromArray($styleArray);
+
 // SET AUTOWIDTH COLOUMN
 for ($i = 'A'; $i !=  $spreadsheet->getActiveSheet()->getHighestColumn(); $i++) {
-    $spreadsheet->getActiveSheet()->getColumnDimension($i)->setAutoSize(TRUE);    
+    $spreadsheet->getActiveSheet()->getColumnDimension($i)->setAutoSize(TRUE);
 }
 
 

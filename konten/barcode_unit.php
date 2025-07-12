@@ -53,6 +53,7 @@
 
                                         <td><a href="index.php?p=barcode-by-lokasi&id=<?= $id; ?>&lok=<?= md5($r['lokasi']); ?>"><?= $r['lokasi']; ?></a></td>
                                         <td align="center">
+                                            <a target="blank" href="pdf/examples/print-barcode2d-cus.php?lok=<?= md5($r['lokasi']); ?>"><button class="btn btn-info"><i class="fas fa-print"></i> Cetak QR-Code</button></a>
                                             <a target="blank" href="pdf/examples/print-barcode1d-cus.php?lok=<?= md5($r['lokasi']); ?>"><button class="btn btn-info"><i class="fas fa-print"></i> Cetak Barcode</button></a>
                                             &nbsp;
                                             <a target="blank" href="pdf/examples/inventaris_by_ruang_rinci.php?lok=<?= md5($r['lokasi']); ?>"><button class="btn btn-info"><i class="fas fa-print"></i> Cetak Rincian</button></a>

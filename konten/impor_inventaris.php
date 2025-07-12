@@ -5,6 +5,7 @@ if (isset($_POST['upload'])) { // IF 1
     $namafile = basename($_FILES["fileToUpload"]["name"]);
     $target_file = $namafile;
     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+    mysqli_query($koneksi,"START TRANSACTION");
 
     if ($imageFileType != "xls") {
         $msg = "<span class='badge badge-danger'>Proses Impor Gagal .Silahkan Gunakan File Draft Yang Tersedia (Jangan Mengupload File Selain Draft Yang Disediakan)</span><br>";
@@ -29,27 +30,39 @@ if (isset($_POST['upload'])) { // IF 1
             //echo $query."<br>";
 
             $id_barang = $Row[1];
-            $sql1 = "select * from barang where id_barang=$id_barang";
+            $sql1 = "SELECT * from barang where id_barang=$id_barang";
             $q1 = mysqli_query($koneksi, $sql1);
             $val1 = mysqli_num_rows($q1);
 
             if ($val1 < 1) {
                 $pesan .= "Gagal Impor Baris Ke : " . $Key . " Karena Kode Kelompok Barang Tidak Valid <br>";
+                $sukses=0;
+                break;
             } else {
                 $unit_kerja = $_SESSION['idunit'];
                 // $unit_kerja = $Row[5];
-                $sql2 = "select * from unit_kerja where id_unit=$unit_kerja";
+                $sql2 = "SELECT * from unit_kerja where id_unit=$unit_kerja";
                 $q2 = mysqli_query($koneksi, $sql2);
                 $val1 = mysqli_num_rows($q2);
                 if ($val1 < 1) {
+                    $sukses=0;
                     $pesan .= "Gagal Impor Baris Ke : " . $Key . " ID Unit Kerja Tidak Ditemukan <br>";
+                    break;
                 } else {
                     $max = $Row[9];
                     for ($i = 0; $i < $max; $i++) {
-                        $query = "INSERT INTO barang_detail(id_input, id_barang, kondisi, lokasi, catatan, gambar, id_unitkerja, tanggal_input, jam_input, id_tambah, tanggal_perolehan, nilai_perolehan, perubahan_terakhir) VALUES ('" . $Row[0] . "', '" . $Row[1] . "','" . $Row[2] . "','" . $Row[3] . "','" . $Row[4] . "','','" . $_SESSION['idunit'] . "',DEFAULT,DEFAULT,'" . $Row[6] . "','" . $Row[7] . "','" . $Row[8] . "',DEFAULT)";
+                        $id_input=$Key;
+                        $Row[4]=str_replace("'","",$Row[4]);
+                        // $id_input=$Row[0]." Baris Ke - ".$Key;
+                        $query = "INSERT INTO barang_detail(id_input, id_barang, kondisi, lokasi, catatan, gambar, id_unitkerja, tanggal_input, jam_input, id_tambah, tanggal_perolehan, nilai_perolehan, perubahan_terakhir) VALUES ('" . $id_input . "', '" . $Row[1] . "','" . ucwords($Row[2]) . "','" . $Row[3] . "','" . $Row[4] . "','','" . $_SESSION['idunit'] . "',DEFAULT,DEFAULT,'" . $Row[6] . "','" . $Row[7] . "','" . $Row[8] . "',DEFAULT)";
                         // $query = "INSERT INTO barang_detail(id_input, id_barang, kondisi, lokasi, catatan, gambar, id_unitkerja, tanggal_input, jam_input, id_tambah, tanggal_perolehan, nilai_perolehan, perubahan_terakhir) VALUES ('" . $Row[0] . "', '" . $Row[1] . "','" . $Row[2] . "','" . $Row[3] . "','" . $Row[4] . "','','" . $Row[5] . "',DEFAULT,DEFAULT,'" . $Row[6] . "','" . $Row[7] . "','" . $Row[8] . "',DEFAULT)";
                         mysqli_query($koneksi, $query);
-                        $sukses++;
+                        if(mysqli_affected_rows($koneksi)>0){
+                            $sukses++;
+                        } else {
+                            $sukses=0;
+                            $pesan .= "Gagal Impor Baris Ke : " . $Key . " Format Keterangan Salah <br>";
+                        }
                     }
                 }
             }
@@ -62,7 +75,13 @@ if (isset($_POST['upload'])) { // IF 1
         $now = date('Y_m_d_H_i_s');
         $jd = $Key - 1;
         rename($target_dir, "upload/ImporInventaris_" . $now . ".xls");
-        $msg = "<span class='badge badge-success'>Berhasil Menambahkan : " . $sukses . " Baris Dari " . $jd . " Data </span><br><span class='badge badge-danger'>" . $pesan . "</span><br>";
+        if($sukses>1){
+            mysqli_query($koneksi,"COMMIT");
+            $msg = "<span class='badge badge-success'>Berhasil Menambahkan : " . $sukses . " Baris Dari " . $jd . " Data </span><br>";
+        } else {
+            mysqli_query($koneksi,"ROLLBACK");
+            $msg = "<span class='badge badge-danger'>" . $pesan . "</span><br>";
+        }
     } // Tutup If 2
 } // Tutup If 1
 
@@ -154,7 +173,7 @@ if (isset($_POST['upload'])) { // IF 1
                     </thead>
                     
                         <?php
-                        $sql = "select barang.*,kategori,subkategori from barang,kategori,subkategori where barang.id_subkategori=subkategori.id_subkategori and kategori.id_kategori=subkategori.id_kategori";
+                        $sql = "SELECT barang.*,kategori,subkategori from barang,kategori,subkategori where barang.id_subkategori=subkategori.id_subkategori and kategori.id_kategori=subkategori.id_kategori";
                         $perintah = mysqli_query($koneksi, $sql);
                         while ($r = mysqli_fetch_array($perintah)) {
                         ?>

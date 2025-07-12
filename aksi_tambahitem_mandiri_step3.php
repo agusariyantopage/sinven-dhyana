@@ -19,13 +19,14 @@
 	$x4	=$_POST['lokasi'];
 	$x5	=$_POST['nilai'];
 	$x6 =$_POST['qtybaik'];
+	$x7 =$_POST['catatan'];
 	
 
 	// Perintah Insert Tabel
 	$sql1="insert into tambah_detail (id_tambah, id_barang, status, qty, lokasi, 
-		nilai_perolehan, dibuat_pada) 
-		values($x1,$x2,Default,$x6,'$x4',$x5,Default)";
-		//echo $sql1;
+		nilai_perolehan,catatan, dibuat_pada) 
+		values($x1,$x2,Default,$x6,'$x4',$x5,'$x7',Default)";
+		// echo $sql1;
 	mysqli_query($koneksi,$sql1);
 	
 

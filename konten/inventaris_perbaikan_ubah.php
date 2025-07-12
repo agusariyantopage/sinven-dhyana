@@ -8,6 +8,7 @@ $qtybaik=$_GET['qtybaik'];
 $qtyrusak=$_GET['qtyrusak'];
 $tanggal_perolehan=$_GET['tanggal_perolehan'];
 $nilai_perolehan=$_GET['nilai_perolehan'];
+$catatan=$_GET['catatan'];
 
 ?>
 
@@ -134,7 +135,7 @@ $nilai_perolehan=$_GET['nilai_perolehan'];
 								
 							<div class="form-group">
 								<label for="catatan">Catatan</label>
-								<input  type="text" name="catatan" id="catatan" value="<?= $r1['catatan']; ?>"  placeholder="Masukkan catatan . . ." class="form-control">
+								<input  type="text" name="catatan" id="catatan" value="<?= $catatan; ?>"  placeholder="Masukkan catatan . . ." class="form-control">
 							</div>													
 							<button type="submit" class="btn btn-primary" onclick="return confirm('Pastikan Data Yang Anda Masukkan Sudah Benar,Apakah Anda Yakin Akan Melanjutkan?')">Simpan</button>
 

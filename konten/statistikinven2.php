@@ -55,7 +55,7 @@ $judul = $kol1['kategori'];
                 $sum_total_item = 0;
                 $sum_perolehan = 0;
 
-                $sql = "SELECT subkategori.id_kategori,subkategori.id_subkategori,subkategori,COUNT(IF(kondisi = 'Baik', 1, NULL)) as qty_baik,COUNT(IF(kondisi = 'Rusak', 1, NULL)) as qty_rusak,COUNT(IF(kondisi = 'Hilang', 1, NULL)) as qty_hilang,SUM(barang_detail.nilai_perolehan) as total_perolehan from subkategori LEFT JOIN barang on barang.id_subkategori=subkategori.id_subkategori left join barang_detail on barang_detail.id_barang=barang.id_barang where id_kategori=$id GROUP by subkategori";
+                $sql = "SELECT subkategori.id_kategori,subkategori.id_subkategori,subkategori,COUNT(IF(kondisi = 'Baik', 1, NULL)) as qty_baik,COUNT(IF(kondisi = 'Rusak', 1, NULL)) as qty_rusak,COUNT(IF(kondisi = 'Hilang', 1, NULL)) as qty_hilang,SUM(barang_detail.nilai_perolehan) as total_perolehan from subkategori LEFT JOIN barang on barang.id_subkategori=subkategori.id_subkategori left join barang_detail on barang_detail.id_barang=barang.id_barang where id_kategori=$id GROUP by subkategori.id_subkategori";
 
                 // -- Akses Yayasan / Unit Kerja 
 
