@@ -61,9 +61,9 @@
 				
 
 				$sql4="INSERT INTO barang_detail(id_input, id_barang, kondisi, lokasi,
-				catatan, gambar, id_unitkerja, tanggal_input, jam_input,
+				catatan, gambar, id_unitkerja, tanggal_input,tanggal_perolehan, jam_input,
 				id_tambah, nilai_perolehan, perubahan_terakhir) VALUES ('',$x1,'$x2','$x3',
-				'$x4','$x5',$x6,'$x7','$x8',
+				'$x4','$x5',$x6,'$x7','$x7','$x8',
 				$x9,$x10,Default)";
 				mysqli_query($koneksi,$sql4);
 				//echo $sql4;;echo "<br>";

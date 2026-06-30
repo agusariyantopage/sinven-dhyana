@@ -38,7 +38,7 @@ if ($trm == 1) {
 
 			$sql4 = "INSERT INTO barang_detail(id_input, id_barang, kondisi, lokasi,catatan, gambar,
 				 id_unitkerja, tanggal_input, jam_input,id_tambah, nilai_perolehan,tanggal_perolehan, perubahan_terakhir) 
-				 VALUES ('',$x1,'$x2','$x3','$x4','$x5',$x6,'$x8a','$x8',$x9,$x10,$x7,Default)";
+				 VALUES ('',$x1,'$x2','$x3','$x4','$x5',$x6,'$x8a','$x8',$x9,$x10,'$x7',Default)";
 			mysqli_query($koneksi, $sql4);
 			//echo $sql4;;echo "<br>";
 			$sukses = mysqli_affected_rows($koneksi);

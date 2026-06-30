@@ -64,6 +64,7 @@
                     <th>Kondisi</th>
                                        
                     <th>Lokasi Barang</th>
+                    <th>Harga Perolehan</th>
                     <th>Batal</th>
                   </tr>
                   </thead>
@@ -103,6 +104,7 @@
                         </td> 
                         
                         <td><?= $r['lokasi']; ?></td> 
+                        <td><?= number_format($r['nilai_perolehan']); ?></td> 
                         <td align="center">
                             <a href="aksi_hapusitem_delete.php?id=<?= $r['id_hapus_detail']; ?>"><span class="fas fa-trash"></span></a>
                             &nbsp;                                                       
@@ -117,9 +119,9 @@
                     <th>ID </th>
                     <th>Deskripsi</th>
                     <th>Spesifikasi</th> 
-                    <th>Kondisi</th> 
-                                      
+                    <th>Kondisi</th>                                       
                     <th>Lokasi Barang</th>
+                    <th>Harga Perolehan</th>
                     <th>Batal</th> 
                     
                   </tr>

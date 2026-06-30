@@ -1,109 +1,85 @@
 <?php
-// Autoload PhpSpreadsheet
-require 'vendor/autoload.php';
-
-use PhpOffice\PhpSpreadsheet\IOFactory;
 
 if (isset($_POST['upload'])) { // IF 1
     $pesan = '';
     $namafile = basename($_FILES["fileToUpload"]["name"]);
     $target_file = $namafile;
     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-    mysqli_query($koneksi, "START TRANSACTION");
+    mysqli_query($koneksi,"START TRANSACTION");
 
     if ($imageFileType != "xls") {
         $msg = "<span class='badge badge-danger'>Proses Impor Gagal .Silahkan Gunakan File Draft Yang Tersedia (Jangan Mengupload File Selain Draft Yang Disediakan)</span><br>";
     } else { //IF 2
 
-        // require('xlsreader/php-excel-reader/excel_reader2.php');
-        // require('xlsreader/SpreadsheetReader.php');
+        require('xlsreader/php-excel-reader/excel_reader2.php');
+        require('xlsreader/SpreadsheetReader.php');
 
         //upload data excel kedalam folder upload
         $target_dir = "upload/" . basename($_FILES['fileToUpload']['name']);
         move_uploaded_file($_FILES['fileToUpload']['tmp_name'], $target_dir);
 
-        // Load file Excel
-        $spreadsheet = IOFactory::load($target_dir);
-        $sheet = $spreadsheet->getActiveSheet();
-        $rows = $sheet->toArray();
-        // echo count($rows);
+        $Reader = new SpreadsheetReader($target_dir);
+
         $sukses = 0;
-        for ($i = 1; $i < count($rows); $i++) {
-            $Row = $rows[$i];
-            $id_barang   = trim($Row[1]);
-            $kondisi     = trim($Row[2]);
-            $lokasi      = trim($Row[3]);
-            $catatan     = trim($Row[4]);
-            $id_tambah   = trim($Row[6]);
-            $tanggal_perolehan = trim($Row[7]);
-            $nilai_perolehan       = trim($Row[8]);
-            $jumlah      = $Row[9];
+        foreach ($Reader as $Key => $Row) {
+            // import data excel mulai baris ke-2 (karena ada header pada baris 1)
+            if ($Key <= 1) continue;
+            //if($Row[1] != "" && $$Row[2] != ""){  
+            // Validasi Sub Kategori
+            //$query = "INSERT INTO barang_detail(id_input, id_barang, kondisi, lokasi, catatan, gambar, id_unitkerja, tanggal_input, jam_input, id_tambah, tanggal_perolehan, nilai_perolehan, perubahan_terakhir) VALUES ('" . $Row[0] . "', '" . $Row[1] . "','" . $Row[2] . "','" . $Row[3] . "','" . $Row[4] . "','','" . $Row[5] . "',DEFAULT,DEFAULT,'" . $Row[6] . "','" . $Row[7] . "','" . $Row[8] . "',DEFAULT)";
+            //echo $query."<br>";
 
-            // Validasi id_barang
-            if ($id_barang === '' || !is_numeric($id_barang)) {
-                $pesan .= "Baris $i gagal: id_barang kosong/tidak valid<br>";
-                break;
-            }
+            $id_barang = $Row[1];
+            $sql1 = "SELECT * from barang where id_barang=$id_barang";
+            $q1 = mysqli_query($koneksi, $sql1);
+            $val1 = mysqli_num_rows($q1);
 
-            // Cek apakah id_barang ada di tabel barang
-            $cek = $koneksi->query("SELECT * FROM barang WHERE id_barang=$id_barang");
-            if ($cek->num_rows < 1) {
-                $pesan .= "Baris $i gagal: id_barang $id_barang tidak ditemukan<br>";
-                break;
-            }
-
-            // Cek unit kerja dari session            
-            $id_unit = $_SESSION['idunit'];
-            $cek_unit = $koneksi->query("SELECT * FROM unit_kerja WHERE id_unit=$id_unit");
-            if ($cek_unit->num_rows < 1) {
-                $pesan .= "Baris $i gagal: id_unit $id_unit tidak ditemukan<br>";
+            if ($val1 < 1) {
+                $pesan .= "Gagal Impor Baris Ke : " . $Key . " Karena Kode Kelompok Barang Tidak Valid <br>";
+                $sukses=0;
                 break;
             } else {
-                $max = $jumlah;
-                for ($i1 = 0; $i1 < $max; $i1++) {
-                    $id_input = $target_file . "_baris_" . $i;
-                    $catatan = str_replace("'", "", $catatan);
-                    // $id_input=$Row[0]." Baris Ke - ".$Key;
-                    $query = "INSERT INTO barang_detail(id_input, id_barang, kondisi, lokasi, catatan, gambar, id_unitkerja, tanggal_input, jam_input, id_tambah, tanggal_perolehan, nilai_perolehan, perubahan_terakhir) VALUES ('" . $id_input . "', '" . $id_barang . "','" . ucwords($kondisi) . "','" . $lokasi . "','" . $catatan . "','','" . $_SESSION['idunit'] . "',DEFAULT,DEFAULT,'" . $id_tambah . "','" . $tanggal_perolehan . "'," . $nilai_perolehan . ",DEFAULT)";
-
-                    // echo $query."<br>";
-
-                    // // Cek duplikasi data berdasarkan id_barang, lokasi, id_unitkerja, catatan, dan nilai_perolehan
-                    // $cek_ganda = $koneksi->query("SELECT id_barang FROM barang_detail WHERE id_barang=$id_barang AND lokasi='$lokasi' AND id_unitkerja=$id_unit AND catatan='$catatan' AND nilai_perolehan=$nilai_perolehan");
-                    // if ($cek_ganda->num_rows >= $max) {
-                    //     $pesan .= "Baris $i gagal: terdeteksi ganda <br>";
-                    //     $sukses = 0;
-                    //     // echo "Baris $i gagal: terdeteksi ganda <br>";                        
-                    // } else {
-                    //     mysqli_query($koneksi, $query);
-                    //     // echo "Perintah Sukses <br>";   
-                    // }
-
-                    mysqli_query($koneksi, $query);
-                    
-                    if (mysqli_affected_rows($koneksi) > 0) {
-                        $sukses++;
-                    } else {
-                        $sukses = 0;
-                        $pesan .= "Gagal Impor Baris Ke : " . $i . " Format Keterangan Salah <br>";
+                $unit_kerja = $_SESSION['idunit'];
+                // $unit_kerja = $Row[5];
+                $sql2 = "SELECT * from unit_kerja where id_unit=$unit_kerja";
+                $q2 = mysqli_query($koneksi, $sql2);
+                $val1 = mysqli_num_rows($q2);
+                if ($val1 < 1) {
+                    $sukses=0;
+                    $pesan .= "Gagal Impor Baris Ke : " . $Key . " ID Unit Kerja Tidak Ditemukan <br>";
+                    break;
+                } else {
+                    $max = $Row[9];
+                    for ($i = 0; $i < $max; $i++) {
+                        $id_input=$Key;
+                        $Row[4]=str_replace("'","",$Row[4]);
+                        // $id_input=$Row[0]." Baris Ke - ".$Key;
+                        $query = "INSERT INTO barang_detail(id_input, id_barang, kondisi, lokasi, catatan, gambar, id_unitkerja, tanggal_input, jam_input, id_tambah, tanggal_perolehan, nilai_perolehan, perubahan_terakhir) VALUES ('" . $id_input . "', '" . $Row[1] . "','" . ucwords($Row[2]) . "','" . $Row[3] . "','" . $Row[4] . "','','" . $_SESSION['idunit'] . "',DEFAULT,DEFAULT,'" . $Row[6] . "','" . $Row[7] . "','" . $Row[8] . "',DEFAULT)";
+                        // $query = "INSERT INTO barang_detail(id_input, id_barang, kondisi, lokasi, catatan, gambar, id_unitkerja, tanggal_input, jam_input, id_tambah, tanggal_perolehan, nilai_perolehan, perubahan_terakhir) VALUES ('" . $Row[0] . "', '" . $Row[1] . "','" . $Row[2] . "','" . $Row[3] . "','" . $Row[4] . "','','" . $Row[5] . "',DEFAULT,DEFAULT,'" . $Row[6] . "','" . $Row[7] . "','" . $Row[8] . "',DEFAULT)";
+                        mysqli_query($koneksi, $query);
+                        if(mysqli_affected_rows($koneksi)>0){
+                            $sukses++;
+                        } else {
+                            $sukses=0;
+                            $pesan .= "Gagal Impor Baris Ke : " . $Key . " Format Keterangan Salah <br>";
+                        }
                     }
                 }
             }
-        }
-        
+        } // Tutup Each
         date_default_timezone_set('Asia/Singapore');
         $tanggal = date('Y-m-d');
         $jam = date('H:i:s');
         $date = date_create();
         $input_id = date_timestamp_get($date);
         $now = date('Y_m_d_H_i_s');
-        $jd = count($rows) - 1;
+        $jd = $Key - 1;
         rename($target_dir, "upload/ImporInventaris_" . $now . ".xls");
-        if ($sukses > 1) {
-            mysqli_query($koneksi, "COMMIT");
+        if($sukses>1){
+            mysqli_query($koneksi,"COMMIT");
             $msg = "<span class='badge badge-success'>Berhasil Menambahkan : " . $sukses . " Baris Dari " . $jd . " Data </span><br>";
         } else {
-            mysqli_query($koneksi, "ROLLBACK");
+            mysqli_query($koneksi,"ROLLBACK");
             $msg = "<span class='badge badge-danger'>" . $pesan . "</span><br>";
         }
     } // Tutup If 2
@@ -192,26 +168,26 @@ if (isset($_POST['upload'])) { // IF 1
                             <th>Deskripsi</th>
                             <th>Kategori</th>
                             <th>Subkategori</th>
-
+                                                       
                         </tr>
                     </thead>
-
-                    <?php
-                    $sql = "SELECT barang.*,kategori,subkategori from barang,kategori,subkategori where barang.id_subkategori=subkategori.id_subkategori and kategori.id_kategori=subkategori.id_kategori";
-                    $perintah = mysqli_query($koneksi, $sql);
-                    while ($r = mysqli_fetch_array($perintah)) {
-                    ?>
-                        <tr>
-                            <td><?= $r['id_barang']; ?></td>
-                            <td><?= $r['deskripsi']; ?></td>
-                            <td><?= $r['kategori']; ?></td>
-                            <td><?= $r['subkategori']; ?></td>
-
-                        </tr>
-                    <?php
-                    }
-                    ?>
-
+                    
+                        <?php
+                        $sql = "SELECT barang.*,kategori,subkategori from barang,kategori,subkategori where barang.id_subkategori=subkategori.id_subkategori and kategori.id_kategori=subkategori.id_kategori";
+                        $perintah = mysqli_query($koneksi, $sql);
+                        while ($r = mysqli_fetch_array($perintah)) {
+                        ?>
+                            <tr>
+                                <td><?= $r['id_barang']; ?></td>
+                                <td><?= $r['deskripsi']; ?></td>
+                                <td><?= $r['kategori']; ?></td>
+                                <td><?= $r['subkategori']; ?></td>
+                                                             
+                            </tr>
+                        <?php
+                        }
+                        ?>
+                                       
                 </table>
 
 
@@ -238,24 +214,24 @@ if (isset($_POST['upload'])) { // IF 1
                         <tr>
                             <th>ID Unit Kerja</th>
                             <th>Nama Unit Kerja</th>
-
-
+                            
+                                                       
                         </tr>
                     </thead>
-
-                    <?php
-                    $sql = "SELECT * FROM unit_kerja";
-                    $perintah = mysqli_query($koneksi, $sql);
-                    while ($r = mysqli_fetch_array($perintah)) {
-                    ?>
-                        <tr>
-                            <td><?= $r['id_unit']; ?></td>
-                            <td><?= $r['nama_panjang']; ?></td>
-                        </tr>
-                    <?php
-                    }
-                    ?>
-
+                    
+                        <?php
+                        $sql = "SELECT * FROM unit_kerja";
+                        $perintah = mysqli_query($koneksi, $sql);
+                        while ($r = mysqli_fetch_array($perintah)) {
+                        ?>
+                            <tr>
+                                <td><?= $r['id_unit']; ?></td>
+                                <td><?= $r['nama_panjang']; ?></td>
+                            </tr>
+                        <?php
+                        }
+                        ?>
+                                       
                 </table>
 
 

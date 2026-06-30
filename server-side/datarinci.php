@@ -30,7 +30,7 @@ if($_SESSION['jenisakses']=='Yayasan') {
     $sql="CREATE VIEW ".$view_name." as SELECT barang_detail.*,deskripsi,spesifikasi,nama_panjang from barang_detail,barang,unit_kerja where barang_detail.id_barang=barang.id_barang and unit_kerja.id_unit=barang_detail.id_unitkerja and barang_detail.id_unitkerja=$id_unit";
     
   }
-  $sql1='DROP view '.$view_name;
+  $sql1='DROP view IF EXISTS '.$view_name;
   mysqli_query($koneksi,$sql1);
   mysqli_query($koneksi,$sql);
 
